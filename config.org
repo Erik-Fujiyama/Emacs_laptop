@@ -336,7 +336,9 @@
       :ensure t)
     (use-package company-jedi
       :ensure t)
-  (setq python-shell-interpreter "python3")
+  ;(setq python-shell-interpreter "python3")
+  (when (executable-find "ipython")
+  (setq python-shell-interpreter "ipython"))
   (defun my/python-mode-hook ()
     (add-to-list 'company-backends 'company-jedi))
   (with-eval-after-load 'company-jedi
@@ -350,3 +352,6 @@
     :ensure t)
 #+end_src
 <
+:PROPERTIES:
+:UNNUMBERED: t
+:END:
