@@ -339,6 +339,7 @@
   ;(setq python-shell-interpreter "python3")
   (when (executable-find "ipython")
   (setq python-shell-interpreter "ipython"))
+  (setq python-shell-interpreter-args "--simple-prompt -i")
   (defun my/python-mode-hook ()
     (add-to-list 'company-backends 'company-jedi))
   (with-eval-after-load 'company-jedi
