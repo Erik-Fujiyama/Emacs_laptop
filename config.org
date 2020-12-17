@@ -36,6 +36,8 @@
   (tempo-define-template "begin"
       '("#+TITLE: " p "\n#+AUTHOR: Erik S. Fujiyama\n#+OPTIONS: toc:nil\n#+STARTUP: latexpreview")
       "<b")
+
+
 #+end_src
 ** Parenthesis
 #+begin_src emacs-lisp
@@ -76,16 +78,20 @@
 #+END_SRC
 * Julia
 #+begin_src emacs-lisp
-  (use-package julia-mode
-    :ensure t
-    :init)
-  (require 'julia-mode)
+    (use-package julia-mode
+      :ensure t
+      :init)
+    (require 'julia-mode)
 
-  (use-package julia-repl
-    :ensure t
-    :init)
-  (require 'julia-repl)
-  (add-hook 'julia-mode-hook 'julia-repl-mode) ;; always use minor mode
+    (use-package julia-repl
+      :ensure t
+      :init)
+    (require 'julia-repl)
+    (add-hook 'julia-mode-hook 'julia-repl-mode) ;; always use minor mode
+  ;; (use-package ob-julia
+  ;;  :ensure t)
+  (add-to-list 'load-path "~/julia")
+  (setq inferior-julia-program-name "~/julia")
 #+end_src
 * Magit
 #+begin_src emacs-lisp
@@ -325,6 +331,7 @@
   (use-package ess
     :ensure )
   (require 'ess-site)
+  (setq  inferior-julia-program-name "~/julia")
 #+end_src
 * Python
 #+begin_src emacs-lisp
@@ -356,3 +363,15 @@
 :PROPERTIES:
 :UNNUMBERED: t
 :END:
+* Wordpress
+#+begin_src emacs-lisp
+  (use-package org2blog
+    :ensure t)
+  (setq org2blog/wp-blog-alist
+        '(("Anfield_Br"
+           :url "https://anfieldbrasil.com.br/xmlrpc.php"
+           :username "erikfujiyama@gmail.com"
+           :password "sophisticatedlady")))
+
+#+end_src
+
