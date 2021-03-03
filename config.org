@@ -25,19 +25,27 @@
 #+end_src
 ** Org
 #+begin_src emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-  (require 'org-tempo)
-  (tempo-define-template "my-property"
-      '(":PROPERTIES:\n:UNNUMBERED: t\n:END:")
-      "<p")
-  (tempo-define-template "begin"
-      '("#+TITLE: " p "\n#+AUTHOR: Erik S. Fujiyama\n#+OPTIONS: toc:nil\n#+STARTUP: latexpreview")
-      "<b")
-
-
+    (use-package org-bullets
+      :ensure t
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (require 'org-tempo)
+    (tempo-define-template "my-property"
+        '(":PROPERTIES:\n:UNNUMBERED: t\n:END:")
+        "<p")
+    (tempo-define-template "begin"
+        '("#+TITLE: " p "\n#+AUTHOR: Erik S. Fujiyama\n#+OPTIONS: toc:nil\n#+STARTUP: latexpreview\n#+STARTUP: inlineimages"
+  )
+        "<b")
+  (setq org-emphasis-alist (quote (("!"  (:foreground "red") )
+               ("/" italic "<i>" "</i>") 
+               ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
+               ("-" (:overline t) "<span style=\"text-decoration:overline;\">" "</span>")
+               ("=" org-code "<code>" "</code>" verbatim)
+              ("+" (:strike-through t) "<del>" "</del>"))))
+  (add-to-list 'org-emphasis-alist
+               '("*" (:foreground "yellow")
+                 ))
 #+end_src
 ** Parenthesis
 #+begin_src emacs-lisp
@@ -53,27 +61,31 @@
   (pdf-tools-install)
   ;; turn off cua so copy works
   (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
+  (use-package org-pdftools
+    :hook (org-load-hook . org-pdftools-setup-link))
+  (use-package org-pdftools
+    :hook (org-load-hook . org-pdftools-setup-link))
 #+end_src
 * Google translate
 #+BEGIN_SRC emacs-lisp
-    (use-package google-translate
-      :ensure t
-      :init)
-  (require 'google-translate)
-  (require 'google-translate-default-ui)
-  (global-set-key "\C-ct" 'google-translate-at-point)
-  (global-set-key "\C-cT" 'google-translate-query-translate)
-  (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse) (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
-  (defun pdf-google-translate()
-    (interactive)
-    (google-translate-translate
-     google-translate-default-source-language
-     google-translate-default-target-language
-     (pdf-view-kill-ring-save)
-     )
-    )
+  ;;   (use-package google-translate
+  ;;     :ensure t
+  ;;     :init)
+  ;; (require 'google-translate)
+  ;; (require 'google-translate-default-ui)
+  ;; (global-set-key "\C-ct" 'google-translate-at-point)
+  ;; (global-set-key "\C-cT" 'google-translate-query-translate)
+  ;; (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse) (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
+  ;; (defun pdf-google-translate()
+  ;;   (interactive)
+  ;;   (google-translate-translate
+  ;;    google-translate-default-source-language
+  ;;    google-translate-default-target-language
+  ;;    (pdf-view-kill-ring-save)
+  ;;    )
+  ;;   )
 
-  (define-key pdf-view-mode-map (kbd "C-c t") 'pdf-google-translate)
+  ;; (define-key pdf-view-mode-map (kbd "C-c t") 'pdf-google-translate)
 
 #+END_SRC
 * Julia
@@ -120,7 +132,7 @@
     :ensure t
     :init)
   ;;flyspell
-  (let ((langs '("english" "deutsch8" "pt_BR" "hu")))
+  (let ((langs '("english" "deutsch8" "portugues" "hu")))
     (setq lang-ring (make-ring (length langs)))
     (dolist (elem langs) (ring-insert lang-ring elem)))
   (defun cycle-ispell-languages ()
@@ -372,6 +384,13 @@
            :url "https://anfieldbrasil.com.br/xmlrpc.php"
            :username "erikfujiyama@gmail.com"
            :password "sophisticatedlady")))
-
+  (add-hook 'org-mode-hook #'org2blog-maybe-start)
+  (setq org2blog/wp-image-upload t)
 #+end_src
 
+* GNU plot
+#+begin_src emacs-lisp
+  (use-package gnuplot
+    :ensure t)
+
+#+end_src
