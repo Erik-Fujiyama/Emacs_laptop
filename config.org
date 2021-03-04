@@ -208,6 +208,9 @@
   (setq reftex-plug-into-AUCTeX t)
   (use-package latex-preview-pane
     :ensure t)
+  (use-package cdlatex
+    :ensure t)
+    (add-hook 'org-mode-hook 'cdlatex-mode)
 #+end_src
 * Org formulas
 #+begin_src emacs-lisp 
@@ -394,3 +397,4 @@
     :ensure t)
 
 #+end_src
+
