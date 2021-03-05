@@ -398,3 +398,13 @@
 
 #+end_src
 
+
+* Yasnippet
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config 
+    (use-package yasnippet-snippets
+      :ensure t)
+    (yas-reload-all))
+#+end_src
