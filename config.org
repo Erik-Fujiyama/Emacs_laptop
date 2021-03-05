@@ -397,8 +397,6 @@
     :ensure t)
 
 #+end_src
-
-
 * Yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet
