@@ -223,10 +223,10 @@
   (save-excursion
     (goto-char (point-min))
     (let ((count 1))
-      (while (re-search-forward "+NAME: eqn{\\([0-9]+\\)}" nil t)
-        (replace-match (format "%d" count) nil nil nil 1)
-        (setq count (1+ count)))))
-  )
+    (while (re-search-forward "\\+NAME: eqn:{\\([0-9]+\\)}" nil t)
+    (replace-match (format "%d" count) nil nil nil 1)
+    (setq count (1+ count)))))
+    )
 #+end_src
 * Org formulas
 #+begin_src emacs-lisp 
