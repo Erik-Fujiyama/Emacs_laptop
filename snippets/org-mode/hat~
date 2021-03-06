@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: til
+# key: ~
+# --
+
+\tilde{$1}

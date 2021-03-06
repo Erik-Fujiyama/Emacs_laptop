@@ -2,4 +2,4 @@
 # name: bold
 # key: B
 # --
-\boldsymbol{$1}
+\boldsymbol{$1}$2
