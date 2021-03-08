@@ -22,6 +22,7 @@
                       :foreground "White"
                       :background "Blue"
                       :box nil)
+  (setq-default frame-title-format '("%f [%m]"))
 #+end_src
 ** Org
 #+begin_src emacs-lisp
@@ -70,24 +71,25 @@
 #+end_src
 * Google translate
 #+BEGIN_SRC emacs-lisp
-  ;;   (use-package google-translate
-  ;;     :ensure t
-  ;;     :init)
-  ;; (require 'google-translate)
-  ;; (require 'google-translate-default-ui)
-  ;; (global-set-key "\C-ct" 'google-translate-at-point)
-  ;; (global-set-key "\C-cT" 'google-translate-query-translate)
-  ;; (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse) (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
-  ;; (defun pdf-google-translate()
-  ;;   (interactive)
-  ;;   (google-translate-translate
-  ;;    google-translate-default-source-language
-  ;;    google-translate-default-target-language
-  ;;    (pdf-view-kill-ring-save)
-  ;;    )
-  ;;   )
+    (use-package google-translate
+      :ensure t
+      :init)
+  (require 'google-translate)
+  (require 'google-translate-default-ui)
+  (setq google-translate-backend-method 'curl)
+  (global-set-key "\C-ct" 'google-translate-at-point)
+  (global-set-key "\C-cT" 'google-translate-query-translate)
+  (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse) (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
+  (defun pdf-google-translate()
+    (interactive)
+    (google-translate-translate
+     google-translate-default-source-language
+     google-translate-default-target-language
+     (pdf-view-kill-ring-save)
+     )
+    )
 
-  ;; (define-key pdf-view-mode-map (kbd "C-c t") 'pdf-google-translate)
+  (define-key pdf-view-mode-map (kbd "C-c t") 'pdf-google-translate)
 
 #+END_SRC
 * Julia
