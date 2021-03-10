@@ -460,26 +460,6 @@
   (use-package load-dir
     :ensure t)
 #+end_src
-* EAF
-#+begin_src emacs-lisp
-  (use-package eaf
-    :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
-    :init
-    (use-package epc :defer t :ensure t)
-    (use-package ctable :defer t :ensure t)
-    (use-package deferred :defer t :ensure t)
-    (use-package s :defer t :ensure t)
-    :custom
-    (eaf-browser-continue-where-left-off t)
-    :config
-    (eaf-setq eaf-browser-enable-adblocker "true")
-    (eaf-bind-key take_photo "p" eaf-camera-keybinding)
-    (eaf-bind-key nil "M-q" eaf-browser-keybinding)
-    (eaf-setq eaf-browser-dark-mode "false")
-    (eaf-setq eaf-pdf-dark-mode "false"))
-  (setq browse-url-browser-function 'eaf-open-browser)
-  (defalias 'browse-web #'eaf-open-browser)
-#+end_src
 * Request
 #+begin_src emacs-lisp
   (use-package request
@@ -490,4 +470,10 @@
   (use-package quelpa
     :ensure t
     :init)
+#+end_src
+* Stocks
+#+begin_src emacs-lisp
+  (require 'request)
+  (require 'json)
+  (require 'cl)
 #+end_src
