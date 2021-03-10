@@ -72,13 +72,6 @@
   (ad-activate 'ansi-term)
   (global-set-key (kbd "<s-return>") 'ansi-term)
 #+end_src
-* EXWM
-#+begin_src emacs-lisp
-  (use-package exwm
-    :ensure t
-    :config
-    (require 'exwm-config))
-#+end_src
 * PDF
 #+begin_src emacs-lisp
   (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
@@ -502,3 +495,10 @@
 #+end_src
 
 
+* Symon
+#+begin_src emacs-lisp
+  (use-package symon
+    :ensure t
+    :bind
+    ("s-h" . symon-mode))
+#+end_src
