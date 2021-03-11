@@ -49,6 +49,7 @@
                  ))
   (setq org-src-fontify-natively t)
   (local-set-key "\M-\C-g" 'org-plot/gnuplot)
+  (setq org-src-window-setup 'current-window)
 #+end_src
 ** Parenthesis
 #+begin_src emacs-lisp
