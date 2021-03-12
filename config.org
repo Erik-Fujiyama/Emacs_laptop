@@ -7,6 +7,11 @@
     (scroll-bar-mode -1)
   (global-linum-mode t)
   (nyan-mode t)
+  (global-hl-line-mode)
+  (use-package beacon
+    :ensure t
+    :init
+    (beacon-mode 1))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -495,11 +500,14 @@
   (require 'cl)
 #+end_src
 
-
 * Symon
 #+begin_src emacs-lisp
   (use-package symon
     :ensure t
     :bind
     ("s-h" . symon-mode))
+#+end_src
+* GMSH
+#+begin_src emacs-lisp
+  (load "~/.emacs.d/gmsh/gmsh.el")
 #+end_src
