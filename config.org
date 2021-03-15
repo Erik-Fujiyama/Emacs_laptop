@@ -28,6 +28,7 @@
                       :background "Blue"
                       :box nil)
   (setq-default frame-title-format '("%f [%m]"))
+  (setq make-backup-files nil)
 #+end_src
 ** Org
 #+begin_src emacs-lisp
@@ -76,6 +77,8 @@
   (defadvice ansi-term (before force-zsh)
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
+
+
   (global-set-key (kbd "<s-return>") 'ansi-term)
 #+end_src
 * PDF
@@ -418,10 +421,7 @@
       :ensure t)
     (use-package company-jedi
       :ensure t)
-  ;(setq python-shell-interpreter "python3")
-  (when (executable-find "ipython")
-  (setq python-shell-interpreter "ipython"))
-  (setq python-shell-interpreter-args "--simple-prompt -i")
+  (setq python-shell-interpreter "python3")
   (defun my/python-mode-hook ()
     (add-to-list 'company-backends 'company-jedi))
   (with-eval-after-load 'company-jedi
@@ -433,11 +433,8 @@
   (add-hook 'python-mode-hook 'my/python-mode-hook)
   (use-package jupyter
     :ensure t)
+  (setq org-babel-python-command "python3")
 #+end_src
-<
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
 * Wordpress
 #+begin_src emacs-lisp
   (use-package org2blog
@@ -510,4 +507,10 @@
 * GMSH
 #+begin_src emacs-lisp
   (load "~/.emacs.d/gmsh/gmsh.el")
+#+end_src
+* Theme
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/spacemacs-theme-master")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/spacemacs-theme-master")
+  (load-theme 'spacemacs-dark t)
 #+end_src
