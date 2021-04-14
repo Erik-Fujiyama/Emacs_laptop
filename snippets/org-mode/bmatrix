@@ -25,4 +25,4 @@ snippet-text
 "")
 "&"))))
 (setq snippet-text (format "%s\n" snippet-text)))
-(yas/expand-snippet (format "%s\\end{pmatrix}" snippet-text)))
+(yas/expand-snippet (format "%s\\end{bmatrix}" snippet-text)))
