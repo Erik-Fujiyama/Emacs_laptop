@@ -1,0 +1,231 @@
+* Minor Settings
+** General
+#+begin_src emacs-lisp
+    (add-to-list 'default-frame-alist '(fullscreen . maximized))
+      (tool-bar-mode -1)
+      (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (global-display-line-numbers-mode)
+
+    (global-hl-line-mode)
+    (use-package beacon
+      :ensure t
+      :init
+      (beacon-mode 1))
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 128 :width normal :foundry "PfEd" :family "DejaVu Sans Mono")))))
+    ;; Disable the splash screen (to enable it agin, replace the t with 0)
+    (setq inhibit-splash-screen t)
+    (setq-default frame-title-format '("%f [%m]"))
+    (setq make-backup-files nil)
+#+end_src
+#+end_src 
+** Org-mode
+#+begin_src emacs-lisp
+    (use-package org-bullets
+      :ensure t
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (require 'org-tempo)
+    (tempo-define-template "my-property"
+	'(":PROPERTIES:\n:UNNUMBERED: t\n:END:")
+	"<p")
+    (tempo-define-template "begin"
+	'("#+TITLE: " p "\n#+AUTHOR: Erik S. Fujiyama\n#+OPTIONS: toc:nil\n#+STARTUP: latexpreview\n#+STARTUP: inlineimages"
+  )
+	"<b")
+  (setq org-emphasis-alist (quote (("!"  (:foreground "red") )
+	       ("/" italic "<i>" "</i>") 
+	       ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
+	       ("-" (:overline t) "<span style=\"text-decoration:overline;\">" "</span>")
+	       ("=" org-code "<code>" "</code>" verbatim)
+	      ("+" (:strike-through t) "<del>" "</del>"))))
+  (add-to-list 'org-emphasis-alist
+	       '("*" (:foreground "yellow")
+		 ))
+  (setq org-src-fontify-natively t)
+  (local-set-key "\M-\C-g" 'org-plot/gnuplot)
+  (setq org-src-window-setup 'current-window)
+  (setq org-startup-folded t)
+#+end_src
+** Parenthesis
+#+begin_src emacs-lisp
+  ;; autocomplete paired brackets
+  (electric-pair-mode 1)
+  (show-paren-mode 1)
+#+end_src
+** Keyboard
+#+begin_src emacs-lisp
+  (defun my-insert-tilde ()
+    (interactive)
+    (insert "~"))
+  (global-set-key (kbd "<dead-tilde> <dead-tilde>") #'my-insert-tilde)
+  (require 'iso-transl)
+#+end_src
+* Config edit/reload
+** edit
+#+begin_src emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "D:/Program Files (x86)/Emacs/config.org"))
+  (global-set-key (kbd "C-c e") 'config-visit)
+
+  #+end_src
+** reload
+#+begin_src emacs-lisp
+  (defun config-reload ()
+    (interactive)
+    (org-babel-load-file (expand-file-name "D:/Program Files (x86)/Emacs/config.org")))
+  (global-set-key (kbd "C-c r") 'config-reload)
+  
+#+end_src
+* Yasnippet
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :config 
+  (use-package yasnippet-snippets
+    :ensure t)
+  (yas-reload-all))
+#+end_src
+* Buffers, IDO, M-x
+** Enable IDO
+#+begin_src emacs-lisp
+  (setq ido-enable-flex-matching nil)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-everywhere t)
+  (ido-mode 1)
+#+end_src
+** IDO-Vertial
+#+begin_src emacs-lisp
+(use-package ido-vertical-mode
+:ensure t
+:init
+(ido-vertical-mode 1))
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+#+end_src
+** iBuffer
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+end_src
+* Avy
+#+begin_src emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind
+    ("M-s" . avy-goto-char))
+#+end_src
+* Switch-window
+#+begin_src emacs-lisp
+  (use-package switch-window
+    :ensure t
+    :config
+    (setq switch-window-input-style 'minibuffer)
+    (setq switch-window-increase 4)
+    (setq switch-window-threshold 2)
+    (setq switch-window-shortcut-style 'qwerty)
+    (setq switch-window-qwerty-shortcuts
+          '("a" "s" "d" "f" "g" "j" "k" "l"))
+    :bind
+    ([remap other-window] . switch-window))
+  (defun split-and-follow-horizontally ()
+    (interactive)
+    (split-window-below)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+
+  (defun split-and-follow-vertically ()
+    (interactive)
+    (split-window-right)
+    (balance-windows)
+    (other-window 1))
+  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+#+end_src
+* Dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard '((recents .10)))
+    (setq dashboard-banner-logo-title "Hello Erik"))
+    (setq show-week-agenda-p t)
+#+end_src
+* Folding 
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<f5>") 'set-selective-display-dlw)
+
+  (defun set-selective-display-dlw (&optional level)
+  "Fold text indented same of more than the cursor.
+  If level is set, set the indent level to LEVEL.
+  If 'selective-display' is already set to LEVEL, clicking
+  F5 again will unset 'selective-display' by setting it to 0."
+    (interactive "P")
+    (if (eq selective-display (1+ (current-column)))
+        (set-selective-display 0)
+      (set-selective-display (or level (1+ (current-column))))))
+#+end_src
+* Theme
+#+begin_src emacs-lisp
+(add-to-list 'load-path "C:/Users/stand/AppData/Roaming/.emacs.d/elpa/spacemacs-theme-0.2")
+(add-to-list 'custom-theme-load-path "C:/Users/stand/AppData/Roaming/.emacs.d/elpa/spacemacs-theme-0.2")
+(load-theme 'spacemacs-dark t)
+#+end_src
+* PDF
+#+begin_src emacs-lisp
+  (add-hook 'pdf-view-mode-hook (lambda() (linum-mode -1)))
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+   (use-package pdf-tools
+      :ensure t
+      :config)
+  (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
+  (use-package org-pdf-tools
+    :hook (org-load-hook . org-pdftools-setup-link))
+#+end_src
+* Latex
+#+begin_src emacs-lisp
+  (setq auto-mode-alist
+	  (cons '("\\.m$" . octave-mode) auto-mode-alist))
+    (setq TeX-parse-self t) ; Enable parse on load.
+  (setq TeX-auto-save t) ; Enable parse on save.
+  (setq-default TeX-master nil) ; Query for master file
+    (require 'reftex)
+    ;; Turn on RefTeX in AUCTeX
+    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (setq reftex-ref-macro-prompt nil)
+  ;; Activate nice interface between RefTeX and AUCTeX
+    (setq reftex-plug-into-AUCTeX t)
+  (add-to-list 'load-path "~/.emacs.d/elpa/")  
+#+end_src
+* Input Cntr Meta
+#+begin_src emacs-lisp
+  ;; There seems to be no built-in mechanism to swap modifier keys in
+  ;; Emacs, but it can be accomplished (for the most part) by
+  ;; translating a near-exhaustive list of modifiable keys.  In the case
+  ;; of 'control and 'meta, some keys must be omitted to avoid errors or
+  ;; other undesired effects.
+  (defun my/make-key-string (modsymbol basic-event)
+    "Convert the combination of MODSYMBOL and BASIC-EVENT.
+  BASIC-EVENT can be a character or a function-key symbol.  The
+  return value can be used with `define-key'."
+    (vector (event-convert-list `(,modsymbol ,basic-event))))
+
+  ;; Escaped chars are:
+  ;; tab return space del backspace (typically translated to del)
+  (dolist (char (append '(up down left right menu print scroll pause
+			  insert delete home end prior next
+			  tab return space backspace escape
+			  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12)
+			;; Escape gets translated to `C-\[' in `local-function-key-map'
+			;; We want that to keep working, so we don't swap `C-\[' with `M-\['.
+			(remq ?\[ (number-sequence 33 126))))
+	  ;; Changing this to use `input-decode-map', as it works for more keys.
+	  (define-key input-decode-map (my/make-key-string 'control char) (my/make-key-string 'meta char))
+	  (define-key input-decode-map (my/make-key-string 'meta char) (my/make-key-string 'control char)))
+#+end_src
+
